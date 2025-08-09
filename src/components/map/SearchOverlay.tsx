@@ -11,8 +11,9 @@ interface SearchOverlayProps {
   visibleSpots: ParkingSpot[];
   selectedSpotId: string | null;
   onClose: () => void;
-  onSearch: (location: { lat: number, lng: number }) => void;
+  onSearch: (location: { lat: number; lng: number }) => void;
   onSelectSpot: (spotId: string) => void;
+  onViewOnMap?: (spotId: string) => void; // Optional prop
   overlayStyles: any;
   closeButtonStyles: any;
 }
@@ -24,13 +25,14 @@ export default function SearchOverlay({
   onClose,
   onSearch,
   onSelectSpot,
+  onViewOnMap, // Add this
   overlayStyles,
   closeButtonStyles,
 }: SearchOverlayProps) {
   const [searchValue, setSearchValue] = useState("");
 
   const handleClose = () => {
-    setSearchValue(""); // Clear search input
+    setSearchValue("");
     onClose();
   };
 
@@ -59,6 +61,7 @@ export default function SearchOverlay({
           spots={visibleSpots}
           selectedSpotId={selectedSpotId}
           onSelectSpot={onSelectSpot}
+          onViewOnMap={onViewOnMap}
         />
       </Paper>
     </Slide>

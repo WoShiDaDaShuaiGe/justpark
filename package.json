@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:prod": "NODE_ENV=production pnpm build",
+    "preview": "vite preview",
+    "deploy": "pnpm build:prod && aws s3 sync dist/ s3://your-bucket-name --delete",
+    "deploy:ci": "pnpm build:prod && aws s3 sync dist/ s3://your-bucket-name --delete && aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths '/*'",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -2,24 +2,20 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import type { ParkingSpot } from "../../types/parking";
 import { getMarkerColor } from "../../utils/parkingUtils";
 import L from "leaflet";
-
 type Props = {
   data: ParkingSpot[];
   showAvailableOnly: boolean;
   onSelectSpot: (spot: ParkingSpot) => void;
 };
-
 export default function MapView({
   data,
   showAvailableOnly,
   onSelectSpot,
 }: Props) {
   const center: [number, number] = [-37.8136, 144.9631];
-
   const filtered = showAvailableOnly
     ? data.filter((spot) => spot.status === "Unoccupied")
     : data;
-
   return (
     <MapContainer
       center={center}
