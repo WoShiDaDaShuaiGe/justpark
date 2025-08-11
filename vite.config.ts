@@ -36,5 +36,5 @@ export default defineConfig({
       },
     },
   },
-  base: "/", // Change this if deploying to subdirectory
+  base: "/justpark/",
 });
