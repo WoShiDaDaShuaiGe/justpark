@@ -2,39 +2,37 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main, master ]  # Trigger on push to main/master
-  pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # needed for gh-pages push
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'pnpm'
-    
-    - name: Install pnpm
-      uses: pnpm/action-setup@v2
-      with:
-        version: 8
-    
-    - name: Install dependencies
-      run: pnpm install
-    
-    - name: Build application
-      run: pnpm build:prod
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
-        cname: woshidadashuaige.github.io  # Optional: if using custom domain
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      # 👇 This installs pnpm and adds it to PATH (the missing piece)
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - run: pnpm -v
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build:prod   # or pnpm build
+
+      - uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
