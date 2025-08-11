@@ -36,5 +36,5 @@ export default defineConfig({
       },
     },
   },
-  base: "/justpark/",
+  base: process.env.NODE_ENV === "production" ? "/justpark/" : "/",
 });

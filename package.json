@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:prod": "NODE_ENV=production npm run build",
+    "build:prod": "NODE_ENV=production npm build",
     "preview": "vite preview",
-    "deploy": "npm run build:prod && aws s3 sync dist/ s3://your-bucket-name --delete",
-    "deploy:ci": "npm run build:prod && aws s3 sync dist/ s3://your-bucket-name --delete && aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths '/*'",
+    "deploy": "npm build:prod && aws s3 sync dist/ s3://your-bucket-name --delete",
+    "deploy:ci": "npm build:prod && aws s3 sync dist/ s3://your-bucket-name --delete && aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths '/*'",
     "lint": "eslint .",
     "clean": "rm -rf dist"
   },
